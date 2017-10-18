@@ -91,7 +91,7 @@ def requests_per_month():
                 
             elif 'Aug' in totes[1]:
                 Aug += 1
-                Tota_count += 1
+                Total_count += 1
             elif 'Sep' in totes[1]:
                 Sep += 1
                 Total_count += 1
@@ -271,12 +271,12 @@ def files_by_month():
                 Jul.append(Jl)  
                 
             elif 'Aug' in totes[1]:
-                AU = tuple(totes)
-                Aug.append[AU]
+                Au = tuple(totes)
+                Aug.append(Au)
             
             elif 'Sep' in totes[1]:
-                SE = tuple(totes)
-                Sep.append[SE]
+                Se = tuple(totes)
+                Sep.append(Se)
                 
             else: pass
             
