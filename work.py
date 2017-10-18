@@ -89,7 +89,7 @@ def requests_per_month():
                 Jul += 1
                 Total_count += 1
                     
-    print('Total requests made for October:                 ...', Oct)
+    print('Total requests made for October:                 ...', Oct)          
     print('Total requests made for November:                   ', Nov)
     print('Total requests made for December:                ...', Dec)
     print('Total requests made for January:                    ', Jan)
@@ -116,12 +116,70 @@ def total_requests():
             Total_count += 1
                        
     
-    total = Total_count
-    print('The TOTAL requests made during this time period: ...', total,'\n')
+    return Total_count
+    
+    
+def percentage_of_requests():   
+    Total_count = 0
+    
+    NotS = 0
+    Red = 0
+    
+    data = urllib.request.urlopen('https://s3.amazonaws.com/tcmg412-fall2016/http_access_log')
+    
+    for line in data:
+        #Turning each line into strings
+        x = str(line)
+        #ignore the weird lines #couldn't figure out how to work with them
+        if len(x) < 74: pass
+            
+        else:    
+            #creating a helpful list that seperates each line into sections
+            a = x.split('[')
+            b = a[1]
+            c = b.split(']')
+            d = [a[0], c[0], c[1]]
+            aa = d[2]
+            bb = aa.split('"')
+            
+            #having problems in this area due to length of some lines 
+            
+            if len(bb) < 3:
+                totes = [a[0], c[0], bb[1]]
+            else:
+                aaa = bb[2]
+                ccc = aaa.split()
+                if len(ccc) < 2:
+                    totes = [a[0], bb[1], ccc[0]]
+                else:
+                    totes = [a[0], c[0], bb[1], ccc[0],ccc[1]]    
+                    
+            if len(totes) < 4: pass
+            
+            else:
+                if '4' in totes[3]:
+                    NotS += 1
+                elif '3' in totes[3]:
+                    Red += 1
+                else: pass
+    total = total_requests()
+    
+    NS = (NotS/total) * 100
+    NotSuccessful = str("%.2f" % NS) + '%'
+    
+    RD = (Red/total) * 100
+    Redirected = str("%.2f" % RD) + '%'
+    
+    print("Percentage of requests not successful:          ...", NotSuccessful)                         
+    print("Percentage of requests that were redirected:    ...", Redirected)
+
     
 def main():
     print('\n-----------------------------------------\n')
-    total_requests()
+    total = total_requests()
+    print('The TOTAL requests made during this time period: ...', total,'\n')
     requests_per_month()
+    print('\n')
+    percentage_of_requests()
     
 main()
